@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imobiliária</title>
+</head>
+<body>
+    <div id="imoveis-list"></div>
+
+    <script>
+        fetch('http://localhost:8080/imoveis')
+            .then(response => response.json())
+            .then(data => {
+                const imoveisList = document.getElementById('imoveis-list');
+                data.forEach(imovel => {
+                    const imovelDiv = document.createElement('div');
+                    imovelDiv.innerHTML = `
+                        <h2>${imovel.titulo}</h2>
+                        <img src="${imovel.imagem}" alt="${imovel.titulo}">
+                        <p><strong>Endereço:</strong> ${imovel.endereco}, ${imovel.cidade} - ${imovel.estado}</p>
+                        <p><strong>Preço:</strong> R$ ${imovel.preco.toFixed(2)}</p>
+                        <p><strong>Quartos:</strong> ${imovel.quartos}</p>
+                        <p><strong>Banheiros:</strong> ${imovel.banheiros}</p>
+                        <p><strong>Área:</strong> ${imovel.area} m²</p>
+                        <p><strong>Descrição:</strong> ${imovel.descricao}</p>
+                    `;
+                    imoveisList.appendChild(imovelDiv);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os imóveis:', error));
+    </script>
+</body>
+</html>
